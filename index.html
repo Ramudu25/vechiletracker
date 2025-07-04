@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vehicle Tracker</title>
+
+  <!-- Leaflet CSS -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  />
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    #map {
+      height: 90vh;
+      width: 100%;
+    }
+
+    .controls {
+      display: flex;
+      justify-content: center;
+      padding: 10px;
+      background-color: #f8f8f8;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="controls">
+    <button id="startButton">Start Movement</button>
+  </div>
+  <div id="map"></div>
+
+  <!-- Leaflet JS -->
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+  ></script>
+
+  <script>
+    // Initial Map Setup
+    const map = L.map("map").setView([17.385044, 78.486671], 13); // Hyderabad
+
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 19,
+      attribution: "© OpenStreetMap",
+    }).addTo(map);
+
+    // Vehicle icon
+    const vehicleIcon = L.icon({
+      iconUrl: "https://cdn-icons-png.flaticon.com/512/744/744465.png",
+      iconSize: [40, 40],
+      iconAnchor: [20, 20],
+    });
+
+    // Initial marker
+    let marker = L.marker([17.385044, 78.486671], { icon: vehicleIcon }).addTo(map);
+
+    
+
+  const pathCoordinates = [
+  // Cluster near Secunderabad Railway Station
+  [17.4286, 78.4862], // 1 – Station
+  [17.4290, 78.4862], // 2 – east
+  [17.4294, 78.4863], // 3 – northeast
+  [17.4298, 78.4864], // 4
+  [17.4302, 78.4865], // 5
+  [17.4306, 78.4866], // 6 – reaching main road
+  [17.4310, 78.4867], // 7 – onto NH44 junction
+  [17.4314, 78.4868], // 8
+  [17.4318, 78.4869], // 9 – smooth entry onto highway
+  [17.4322, 78.4870], // 10
+
+  // Mid-route on NH 44
+  [17.4360, 78.4872], // 11
+  [17.4400, 78.4875], // 12
+  [17.4440, 78.4878], // 13 – Bowenpally
+  [17.4480, 78.4880], // 14
+  [17.4520, 78.4882], // 15
+  [17.4560, 78.4884], // 16–17
+  [17.4600, 78.4886], // 18
+  [17.4640, 78.4884], // 19
+  [17.4680, 78.4880], // 20
+  [17.4720, 78.4876], // 21
+
+  // Final approach to Kompally Bus Stop
+  [17.4740, 78.4872], // 22
+  [17.4760, 78.4868], // 23
+  [17.4780, 78.4864], // 24
+  [17.4800, 78.4860], // 25
+  [17.4820, 78.4856], // 26
+  [17.4840, 78.4852], // 27
+  [17.4860, 78.4848], // 28
+  [17.4880, 78.4844], // 29
+  [17.4900, 78.4840], // 30
+  [17.4920, 78.4836], // 31
+  [17.4940, 78.4832], // 32
+  [17.4960, 78.4828], // 33
+  [17.4980, 78.4824], // 34
+  [17.5000, 78.4820], // 35
+  [17.5020, 78.4816], // 36
+];
+
+
+
+    let pathPolyline = L.polyline([], { color: "blue" }).addTo(map);
+
+    let index = 0;
+    let intervalId;
+
+    function moveVehicle() {
+      if (index >= pathCoordinates.length) {
+        clearInterval(intervalId);
+        return;
+      }
+
+      const newLatLng = pathCoordinates[index];
+      marker.setLatLng(newLatLng);
+      pathPolyline.addLatLng(newLatLng);
+      map.panTo(newLatLng);
+      index++;
+    }
+
+    document.getElementById("startButton").addEventListener("click", () => {
+      if (intervalId) clearInterval(intervalId);
+      index = 0;
+      pathPolyline.setLatLngs([]);
+      intervalId = setInterval(moveVehicle, 1000); // move every second
+    });
+  </script>
+</body>
+</html>
