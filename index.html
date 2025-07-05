@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Vehicle Tracker</title>
 
-  <!-- Leaflet CSS -->
   <link
     rel="stylesheet"
     href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -51,55 +50,53 @@
   </div>
   <div id="map"></div>
 
-  <!-- Leaflet JS -->
   <script
     src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
   ></script>
 
   <script>
-    // Initial Map Setup
-    const map = L.map("map").setView([117.4286, 78.4862], 13); // Hyderabad
+
+    const map = L.map("map").setView([117.4286, 78.4862], 13); 
 
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
       maxZoom: 19,
       attribution: "© OpenStreetMap",
     }).addTo(map);
 
-    // Vehicle icon
+  
     const vehicleIcon = L.icon({
       iconUrl: "https://cdn-icons-png.flaticon.com/512/744/744465.png",
       iconSize: [40, 40],
       iconAnchor: [20, 20],
     });
 
-    // Initial marker
+   
     let marker = L.marker([17.4286, 78.4862], { icon: vehicleIcon }).addTo(map);
 
     
 
   const pathCoordinates = [
-  // Cluster near Secunderabad Railway Station
-  // 3 – northeast
+ 
 
-  [17.4306, 78.4866], // 6 – reaching main road
-  [17.4310, 78.4867], // 7 – onto NH44 junction
-  [17.4314, 78.4868], // 8
-  [17.4318, 78.4869], // 9 – smooth entry onto highway
-  [17.4322, 78.4870], // 10
+  [17.4306, 78.4866], 
+  [17.4310, 78.4867], 
+  [17.4314, 78.4868], 
+  [17.4318, 78.4869], 
+  [17.4322, 78.4870], 
 
-  // Mid-route on NH 44
-  [17.4360, 78.4872], // 11
-  [17.4400, 78.4875], // 12
-  [17.4440, 78.4878], // 13 – Bowenpally
-  [17.4480, 78.4880], // 14
-  [17.4520, 78.4882], // 15
-  [17.4560, 78.4884], // 16–17
-  [17.4600, 78.4886], // 18
-  [17.4640, 78.4884], // 19
-  [17.4680, 78.4880], // 20
-  [17.4720, 78.4876], // 21
+  
+  [17.4360, 78.4872],
+  [17.4400, 78.4875],
+  [17.4440, 78.4878], 
+  [17.4480, 78.4880],
+  [17.4520, 78.4882],
+  [17.4560, 78.4884],
+  [17.4600, 78.4886],
+  [17.4640, 78.4884],
+  [17.4680, 78.4880],
+  [17.4720, 78.4876],
 
-  // Final approach to Kompally Bus Stop
+  
   [17.4740, 78.4872], // 22
   [17.4760, 78.4868], // 23
   [17.4780, 78.4864], // 24
@@ -141,7 +138,7 @@
       if (intervalId) clearInterval(intervalId);
       index = 0;
       pathPolyline.setLatLngs([]);
-      intervalId = setInterval(moveVehicle, 1000); // move every second
+      intervalId = setInterval(moveVehicle, 1000);
     });
   </script>
 </body>
